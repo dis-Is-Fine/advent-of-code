@@ -6,9 +6,6 @@
 
 typedef struct Game {
     int id;
-    int red;
-    int green;
-    int blue;
     int valid;
 } Game;
 
@@ -18,6 +15,10 @@ typedef struct Game {
 
 int stringEqual(char* str1, char* str2);
 int sizeOfNumber(int number);
+void handleGame(char* gameString);
+int handleDraw(char* drawString);
+
+int IDsum;
 
 int main(int argc, char *argv[]) {
 
@@ -33,61 +34,14 @@ int main(int argc, char *argv[]) {
         return -1;
     }
 
-    size_t size = 512;
+    size_t size = 1024;
 
     char *gameString = malloc(size);
-    int IDsum = 0;
+    IDsum = 0;
 
     /* For each line (game) */
     while(getline(&gameString, &size, fd) != -1){
-        int i = 0;
-        int lineSize = strlen(gameString);
-        Game* game = malloc(sizeof(game));
-        game->red = 0;
-        game->green = 0;
-        game->blue = 0;
-        game->valid = 1;
-        /* make sure it has Game # in beggining and assign game id to game struct*/
-        sscanf(gameString, "Game %d:", &game->id);
-        i += strlen("Game :") + sizeOfNumber(game->id);
-
-        /* For each draw in game */
-        for(int j = 0; j<strlen(gameString); j++){
-            char* lineString = malloc(lineSize);
-            memset(lineString, 0, lineSize);
-            sscanf(gameString + i + j, "%[^;]", lineString); /* reading game offset by 'Game #:' header*/
-            lineString[strlen(lineString)] = ';';
-
-            int k = 0;
-
-            /* For each cube color */
-            while(k < strlen(lineString)){
-                int number;
-                char* color = malloc(16);
-                char* ending = malloc(2);
-                sscanf(lineString+k, "%d %[^,;]%[,;]", &number, color, ending);
-                if(stringEqual(color, "red")) game->red = number;
-                if(stringEqual(color, "green")) game->green = number;
-                if(stringEqual(color, "blue")) game->blue = number;
-
-                k = k + sizeOfNumber(number) + strlen(color) + 1 + 2;
-
-                if(ending[0] == ';') break;
-            }
-
-            if(game->red > maxRed) { game->valid = 0; continue; }
-            if(game->green > maxGreen) { game->valid = 0; continue; }
-            if(game->blue > maxBlue) { game->valid = 0; continue; }
-            game->valid = 1;
-
-            j =  + k;
-
-        }
-
-        // printf("game: %s, valid: %d\n", lineString, game->valid);
-        if(game->valid = 1) IDsum += game->id;
-        free(game);
-
+        handleGame(gameString);
     }
 
     free(gameString);
@@ -95,6 +49,57 @@ int main(int argc, char *argv[]) {
     printf("%d", IDsum);
 
     return 0;
+}
+
+void handleGame(char* gameString){
+    int gameStringLength = strlen(gameString);
+
+    Game* game = malloc(sizeof(Game));
+    game->valid = 1;
+
+    int gameStringIndex = 0;
+    sscanf(gameString, "Game %d:", &game->id);
+
+    int headerSize = strlen("Game :") + sizeOfNumber(game->id);
+
+    gameStringIndex += headerSize;
+
+    char* drawString = malloc(256);
+
+    /* for each draw in game */
+    while(gameStringIndex < gameStringLength){
+        sscanf(gameString + gameStringIndex, "%[^;]", drawString);
+        gameStringIndex += strlen(drawString) + 1;
+        game->valid = handleDraw(drawString);
+        if(game->valid == 0) break;
+    }
+
+    printf("%s -> valid: %d\n", gameString, game->valid);
+
+    free(drawString);
+
+    if(game->valid == 1) IDsum += game->id;
+
+}
+
+int handleDraw(char* drawString){
+    int drawLineSize = strlen(drawString);
+    int drawLineIndex = 0;
+
+    int number;
+    char* color = malloc(16);
+
+    /* for each color in draw */
+    while(drawLineIndex < drawLineSize){
+        sscanf(drawString + drawLineIndex, " %d %[^,\n]", &number, color);
+        drawLineIndex += sizeOfNumber(number) + strlen(color) + 3; /* 3 is here because of space in front, space between values and comma */
+
+        if(stringEqual(color, "red") == 1) {if(number > maxRed) return 0;}
+        if(stringEqual(color, "green") == 1) {if(number > maxGreen) return 0;}
+        if(stringEqual(color, "blue") == 1) {if(number > maxBlue) return 0;}
+    }
+
+    return 1;
 }
 
 int stringEqual(char* str1, char* str2){
