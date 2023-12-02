@@ -6,7 +6,9 @@
 
 typedef struct Game {
     int id;
-    int valid;
+    int red;
+    int green;
+    int blue;
 } Game;
 
 #define maxRed 12
@@ -16,9 +18,9 @@ typedef struct Game {
 int stringEqual(char* str1, char* str2);
 int sizeOfNumber(int number);
 void handleGame(char* gameString);
-int handleDraw(char* drawString);
+void handleDraw(char* drawString, Game* game);
 
-int IDsum;
+int sum;
 
 int main(int argc, char *argv[]) {
 
@@ -37,7 +39,7 @@ int main(int argc, char *argv[]) {
     size_t size = 1024;
 
     char *gameString = malloc(size);
-    IDsum = 0;
+    sum = 0;
 
     /* For each line (game) */
     while(getline(&gameString, &size, fd) != -1){
@@ -46,7 +48,7 @@ int main(int argc, char *argv[]) {
 
     free(gameString);
 
-    printf("%d", IDsum);
+    printf("%d", sum);
 
     return 0;
 }
@@ -55,7 +57,7 @@ void handleGame(char* gameString){
     int gameStringLength = strlen(gameString);
 
     Game* game = malloc(sizeof(Game));
-    game->valid = 1;
+    game->red = 0; game->green = 0; game->blue = 0;
 
     int gameStringIndex = 0;
     sscanf(gameString, "Game %d:", &game->id);
@@ -70,19 +72,18 @@ void handleGame(char* gameString){
     while(gameStringIndex < gameStringLength){
         sscanf(gameString + gameStringIndex, "%[^;]", drawString);
         gameStringIndex += strlen(drawString) + 1;
-        game->valid = handleDraw(drawString);
-        if(game->valid == 0) break;
+        handleDraw(drawString, game);
     }
 
-    printf("%s -> valid: %d\n", gameString, game->valid);
+    printf("%s -> red: %d, green: %d, blue: %d\n", gameString, game->red, game->green, game->blue);
 
     free(drawString);
 
-    if(game->valid == 1) IDsum += game->id;
+    sum += game->red * game->green * game->blue;
 
 }
 
-int handleDraw(char* drawString){
+void handleDraw(char* drawString, Game* game){
     int drawLineSize = strlen(drawString);
     int drawLineIndex = 0;
 
@@ -94,12 +95,10 @@ int handleDraw(char* drawString){
         sscanf(drawString + drawLineIndex, " %d %[^,\n]", &number, color);
         drawLineIndex += sizeOfNumber(number) + strlen(color) + 3; /* 3 is here because of space in front, space between values and comma */
 
-        if(stringEqual(color, "red") == 1) {if(number > maxRed) return 0;}
-        if(stringEqual(color, "green") == 1) {if(number > maxGreen) return 0;}
-        if(stringEqual(color, "blue") == 1) {if(number > maxBlue) return 0;}
+        if(stringEqual(color, "red") == 1) {if(number > game->red) game->red = number;}
+        if(stringEqual(color, "green") == 1) {if(number > game->green) game->green = number;}
+        if(stringEqual(color, "blue") == 1) {if(number > game->blue) game->blue = number;}
     }
-
-    return 1;
 }
 
 int stringEqual(char* str1, char* str2){
