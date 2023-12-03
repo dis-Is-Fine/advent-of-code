@@ -86,6 +86,8 @@ int searchForNumbers(char* lines[], int lineCount, int x, int y){
     for (int yPos = minY ; yPos <= maxY; yPos++) {
         for(int xPos = minX; xPos <= maxX; xPos++){
             int number = checkChar(lines, xPos, yPos);
+            /* TODO: (when i'm bored and don't have anything better to do)
+               make it handle situation with two same numbers correctly */
             if(number < 0 || number == previousNumber) {continue;}
             previousNumber = number;
             numberCount++;
