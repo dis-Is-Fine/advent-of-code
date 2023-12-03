@@ -7,10 +7,6 @@
 int getLineCount(FILE* fd);
 int isDigit(int ch);
 int sizeOfNumber(int number);
-int searchForSymbol(int number, char* lines[], int lineCount, int x, int y);
-int isSymbol(int ch);
-
-char symbols[] = {'*', '=', '-', '$', '@', '%', '&', '#', '+', '/'};
 
 typedef struct part {
     int id;
@@ -52,15 +48,8 @@ int main(int argc, char* argv[]) {
         int ch;
         do {
             ch = lines[i][j];
-            if(isDigit(ch) == 1){
-                int number;
-                int length;
-                sscanf(lines[i]+j, "%d", &number);
-                length = sizeOfNumber(number);
-                if(searchForSymbol(number, lines, lineCount, j, i) == 1) {
-                    sum += number;
-                }
-                j += sizeOfNumber(number)-1;
+            if(ch = '*'){
+                sum += searchForNumbers(lines, lineCount, j, i);
             }
             j++;
         } while(ch != '\n');
@@ -71,10 +60,10 @@ int main(int argc, char* argv[]) {
     return 0;
 }
 
-int searchForSymbol(int number, char* lines[], int lineCount, int x, int y){
+int searchForNumbers(char* lines[], int lineCount, int x, int y){
     /* search on top */
     int minX = x - 1;
-    int maxX = x + sizeOfNumber(number);
+    int maxX = x + 1;
     int minY = y - 1;
     int maxY = y + 1;
 
@@ -83,35 +72,20 @@ int searchForSymbol(int number, char* lines[], int lineCount, int x, int y){
     if (minY < 0) minY = 0;
     if (maxY > lineCount-1) maxY = lineCount - 1;
 
-    int valid = 0;
-
-    int symbol = 0;
-
-    int sX = 0;
-    int sY = 0;
-
-    for (int xPos = minX ; xPos <= maxX; xPos++) {
-        sX = xPos;
-        if(isSymbol(lines[minY][xPos]) == 1) {valid = 1; symbol = lines[minY][xPos]; sY = minY; break;}
-        if(isSymbol(lines[y][xPos]) == 1) {valid = 1; symbol = lines[y][xPos]; sY = y; break;}
-        if(isSymbol(lines[maxY][xPos]) == 1) {valid = 1; symbol = lines[maxY][xPos]; sY = maxY; break;}
+    for (int yPos = minY ; yPos <= maxY; yPos++) {
+        for (int xPos = minX ; xPos <= maxX; xPos++) {
+            checkChar(lines, x, y);
+        }
     }
-
-    if(valid == 1){
-        printf("%d valid (found symbol %c at %d:%d)\n", number, symbol, sX+1, sY+1);
-    } else {
-        printf("%d invalid\n", number);
-    }
-
-    return valid;
 }
 
-int isSymbol(int ch){
-    int size = sizeof(symbols);
-    for(int i = 0; i <= size; i++){
-        if(ch == symbols[i]) return 1;
+int checkChar(char* lines[], int x, int y){
+    char ch = lines[y][x];
+    if(isDigit(ch) == 1) {
+        
+
+
     }
-    return 0;
 }
 
 int isDigit(int ch){
