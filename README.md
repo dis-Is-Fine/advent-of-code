@@ -19,18 +19,13 @@ My solutions for Advent Of Code 2023 written in C
 | 5   |  ❌   |   ❌   |
 
 ## Usage
-To use my solutions navigate to folder representing day/part of puzzle,
-
-For example: **./day 1/part 1**
+To use my solutions navigate to folder representing day/part of puzzle, for example: **``./day 1/part 1``**
 
 
-Then run precompiled executable like this:
-> ./solution <filePath>
-
-where filePath is path to your puzzle input
+Then run precompiled executable like this: **``./solution <filePath>``** (you should replace filePath with path to your puzzle input)
 
 
 >[!NOTE]
->If precompiled solution isn't working on your machine, you can compile it with ***compile.sh***
+>If precompiled solution isn't working on your machine, you can compile it with **``compile.sh``**
 >
 >For that, make sure you have gcc installed on your machine
