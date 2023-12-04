@@ -23,6 +23,7 @@ int sizeOfNumber(int number);
 int getLineCount(FILE* fd);
 
 int numberOfCards = 0;
+int sum = 0;
 Card** cardArray;
 
 int main(int argc, char *argv[]) {
@@ -38,8 +39,6 @@ int main(int argc, char *argv[]) {
         printf("File not found\n");
         return -1;
     }
-
-    int sum = -1;
 
     size_t size = 1024;
 
@@ -60,7 +59,6 @@ int main(int argc, char *argv[]) {
     }
 
     for(int i = 0; i < numberOfCards; i++){
-        sum += cardArray[i]->instances;
         free(cardArray[i]);
     }
 
@@ -95,8 +93,9 @@ void handleGame(char* gameString, Card* card){
         cardArray[card->id + i]->instances += card->instances;
     }
 
-    // printf("Card %d | Matches: %d | Instances: %d\n", card->id, card->matches, card->instances);
-    printf("%d\n",card->instances);
+    printf("Card %d | Matches: %d | Instances: %d\n", card->id, card->matches, card->instances);
+    sum += card->instances;
+    // printf("%d\n",card->instances);
 
 
     free(winningString);
