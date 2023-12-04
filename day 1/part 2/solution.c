@@ -11,11 +11,13 @@ int main(int argc, char *argv[]) {
         return -1;
     }
 
+    /* String lookup table for each number */
     char* numbers[] = {"zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"};
 
     int sum = 0;
-    char first_num = -1;
-    char last_num = -1;
+
+    char first_num = -1; /* First digit in the line */
+    char last_num = -1;  /* Last tdigit in the line */
 
     FILE *fd = fopen(argv[1], "r");
 
@@ -32,9 +34,8 @@ int main(int argc, char *argv[]) {
         while(buf[i] != 0){
             /* if the character is a digit */
             if(buf[i] >= '0' && buf[i] <= '9') {
-                /* if the first number is not set */
+                /* if the first number is not set, set the first number */
                 if(first_num == -1){
-                    /* set the first number */
                     first_num = buf[i] - '0';
                 }
                 /* set the last number */

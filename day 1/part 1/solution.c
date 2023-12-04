@@ -12,8 +12,9 @@ int main(int argc, char *argv[]) {
     }
 
     int sum = 0;
-    char first_num = -1;
-    char last_num = -1;
+
+    char firstDigit = -1; /* First digit in the line */
+    char lastDigit = -1;  /* Last digit in the line */
 
     FILE *fd = fopen(argv[1], "r");
 
@@ -30,21 +31,20 @@ int main(int argc, char *argv[]) {
         while(buf[i] != 0){
             /* if the character is a digit */
             if(buf[i] >= '0' && buf[i] <= '9') {
-                /* if the first number is not set */
-                if(first_num == -1){
-                    /* set the first number */
-                    first_num = buf[i] - '0';
+                /* if the first number is not set, set the first number */
+                if(firstDigit == -1){
+                    firstDigit = buf[i] - '0';
                 }
-                /* set the last number */
-                last_num = buf[i] - '0';
+                /* always set the last number */
+                lastDigit = buf[i] - '0';
             }
             i++;
         }
-        int total = first_num*10 + last_num;
-        // printf("current line: %s\n leftmost: %d rightmost: %d, total: %d\n", buf, first_num, last_num, total);
-        sum += total;
-        first_num = -1;
-        last_num = -1;
+        int totalNumber = firstDigit*10 + lastDigit;
+        // printf("current line: %s\n leftmost: %d rightmost: %d, totalNumber: %d\n", buf, firstDigit, lastDigit, totalNumber);
+        sum += totalNumber;
+        firstDigit = -1;
+        lastDigit = -1;
         memset(buf, 0, 300);
     }
 
