@@ -41,14 +41,14 @@ int main(int argc, char *argv[]) {
             i++;
         }
         int total = first_num*10 + last_num;
-        printf("current line: %s\n leftmost: %d rightmost: %d, total: %d\n", buf, first_num, last_num, total);
+        // printf("current line: %s\n leftmost: %d rightmost: %d, total: %d\n", buf, first_num, last_num, total);
         sum += total;
         first_num = -1;
         last_num = -1;
         memset(buf, 0, 300);
     }
 
-    printf("%d\n", sum);
+    printf("Solution: %d\n", sum);
 
     free(buf);
 

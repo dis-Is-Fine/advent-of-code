@@ -47,7 +47,7 @@ int main(int argc, char *argv[]) {
         sum += handleGame(cardString);
     }
 
-    printf("%d", sum);
+    printf("Solution: %d", sum);
 
     free(cardString);
 
@@ -75,7 +75,7 @@ int handleGame(char* gameString){
     sscanf(gameString + gameStringIndex, "%[^\n]", numbersString);
     handleCard(winningString+1, numbersString+1, card);
 
-    printf("Winning: '%s' | Numbers: '%s' | Matches: %d | Points: %d\n", winningString, numbersString, card->matches, card->points);
+    // printf("Winning: '%s' | Numbers: '%s' | Matches: %d | Points: %d\n", winningString, numbersString, card->matches, card->points);
 
     free(winningString);
     free(numbersString);

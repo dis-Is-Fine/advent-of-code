@@ -66,7 +66,7 @@ int main(int argc, char* argv[]) {
         } while(ch != '\n');
     }
     
-    printf("%d\n", sum);
+    printf("Solution: %d\n", sum);
 
     return 0;
 }
@@ -97,11 +97,11 @@ int searchForSymbol(int number, char* lines[], int lineCount, int x, int y){
         if(isSymbol(lines[maxY][xPos]) == 1) {valid = 1; symbol = lines[maxY][xPos]; sY = maxY; break;}
     }
 
-    if(valid == 1){
-        printf("%d valid (found symbol %c at %d:%d)\n", number, symbol, sX+1, sY+1);
-    } else {
-        printf("%d invalid\n", number);
-    }
+    // if(valid == 1){
+    //     printf("%d valid (found symbol %c at %d:%d)\n", number, symbol, sX+1, sY+1);
+    // } else {
+    //     printf("%d invalid\n", number);
+    // }
 
     return valid;
 }

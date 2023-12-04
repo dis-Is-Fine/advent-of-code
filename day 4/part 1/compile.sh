@@ -1,0 +1,1 @@
+gcc solution.c -o solution -lm

@@ -46,7 +46,7 @@ int main(int argc, char *argv[]) {
 
     free(gameString);
 
-    printf("%d", IDsum);
+    printf("Solution: %d", IDsum);
 
     return 0;
 }
@@ -74,7 +74,7 @@ void handleGame(char* gameString){
         if(game->valid == 0) break;
     }
 
-    printf("%s -> valid: %d\n", gameString, game->valid);
+    // printf("%s -> valid: %d\n", gameString, game->valid);
 
     free(drawString);
 

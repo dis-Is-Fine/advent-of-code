@@ -62,7 +62,7 @@ int main(int argc, char *argv[]) {
         free(cardArray[i]);
     }
 
-    printf("%d", sum);
+    printf("Solution: %d", sum);
 
     free(cardString);
     free(cardArray);
@@ -93,10 +93,8 @@ void handleGame(char* gameString, Card* card){
         cardArray[card->id + i]->instances += card->instances;
     }
 
-    printf("Card %d | Matches: %d | Instances: %d\n", card->id, card->matches, card->instances);
+    // printf("Card %d | Matches: %d | Instances: %d\n", card->id, card->matches, card->instances);
     sum += card->instances;
-    // printf("%d\n",card->instances);
-
 
     free(winningString);
     free(numbersString);

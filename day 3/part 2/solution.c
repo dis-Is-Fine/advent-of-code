@@ -56,7 +56,7 @@ int main(int argc, char* argv[]) {
         }
     }
     
-    printf("%d\n", sum);
+    printf("Solution: %d\n", sum);
 
     return 0;
 }
@@ -75,7 +75,7 @@ int searchForNumbers(char* lines[], int lineCount, int x, int y){
     int numberCount = 0;
     int ratio = 0;
 
-    printf("found %c at %d:%d, numbers: ", lines[y][x], x+1, y+1);
+    // printf("found %c at %d:%d, numbers: ", lines[y][x], x+1, y+1);
 
     if(x == 92 && y == 11){
         x = 98;
@@ -91,7 +91,7 @@ int searchForNumbers(char* lines[], int lineCount, int x, int y){
             if(number < 0 || number == previousNumber) {continue;}
             previousNumber = number;
             numberCount++;
-            printf("%d ", number);
+            // printf("%d ", number);
             if(ratio == 0){
                 ratio = number;
             } else {

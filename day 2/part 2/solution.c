@@ -48,7 +48,7 @@ int main(int argc, char *argv[]) {
 
     free(gameString);
 
-    printf("%d", sum);
+    printf("Solution: %d", sum);
 
     return 0;
 }
@@ -75,7 +75,7 @@ void handleGame(char* gameString){
         handleDraw(drawString, game);
     }
 
-    printf("%s -> red: %d, green: %d, blue: %d\n", gameString, game->red, game->green, game->blue);
+    // printf("%s -> red: %d, green: %d, blue: %d\n", gameString, game->red, game->green, game->blue);
 
     free(drawString);
 
