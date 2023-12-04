@@ -17,12 +17,12 @@ typedef struct part {
 
 int main(int argc, char* argv[]) {
 
-    // if(argc != 2) {
-    //     printf("Usage: %s <input_file>\n", argv[0]);
-    //     return -1;
-    // }
+    if(argc != 2) {
+        printf("Usage: %s <input_file>\n", argv[0]);
+        return -1;
+    }
 
-    FILE* fd = fopen("input.txt", "r");
+    FILE* fd = fopen(argv[1], "r");
 
     if (fd == NULL) {
         printf("File not found\n");
@@ -86,6 +86,8 @@ int searchForNumbers(char* lines[], int lineCount, int x, int y){
     for (int yPos = minY ; yPos <= maxY; yPos++) {
         for(int xPos = minX; xPos <= maxX; xPos++){
             int number = checkChar(lines, xPos, yPos);
+            /* TODO: (when i'm bored and don't have anything better to do)
+               make it handle situation with two same numbers correctly */
             if(number < 0 || number == previousNumber) {continue;}
             previousNumber = number;
             numberCount++;
