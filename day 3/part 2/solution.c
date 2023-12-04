@@ -8,7 +8,7 @@ int getLineCount(FILE* fd);
 int isDigit(int ch);
 int sizeOfNumber(int number);
 int searchForNumbers(char* lines[], int lineCount, int x, int y);
-int checkChar(char* lines[], int x, int y);
+int checkChar(char* lines[], int x, int y, int* sX);
 
 typedef struct part {
     int id;
@@ -85,10 +85,8 @@ int searchForNumbers(char* lines[], int lineCount, int x, int y){
 
     for (int yPos = minY ; yPos <= maxY; yPos++) {
         for(int xPos = minX; xPos <= maxX; xPos++){
-            int number = checkChar(lines, xPos, yPos);
-            /* TODO: (when i'm bored and don't have anything better to do)
-               make it handle situation with two same numbers correctly */
-            if(number < 0 || number == previousNumber) {continue;}
+            int number = checkChar(lines, xPos, yPos, &xPos);
+            if(number < 0) {continue;}
             previousNumber = number;
             numberCount++;
             // printf("%d ", number);
@@ -101,22 +99,23 @@ int searchForNumbers(char* lines[], int lineCount, int x, int y){
     }
 
     if(numberCount == 2) {
-        printf("| two numbers found\n");
+        // printf("| two numbers found\n");
         return ratio;
     }
     
-    printf("| %d numbers found\n", numberCount);
+    // printf("| %d numbers found\n", numberCount);
     return 0;
 }
 
-int checkChar(char* lines[], int x, int y){
+int checkChar(char* lines[], int x, int y, int* sX){
     char ch = lines[y][x];
     if(x < 0) return -1; 
     if(isDigit(ch) == 1) {
-        int number = checkChar(lines, x-1, y);
+        int number = checkChar(lines, (x)-1, y, sX);
         if(number == -1) {
             int number;
-            sscanf(lines[y]+x, "%d", &number);
+            sscanf(lines[y]+(x), "%d", &number);
+            *sX = x + sizeOfNumber(number);
             return number;
         } else {
             return number;
