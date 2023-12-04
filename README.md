@@ -8,7 +8,7 @@ My solutions for Advent Of Code 2023 written in C
 | ❌     | Problem not attempted yet |
 | ✍     | Working on solution |
 | ✅     | Problem solved |
-| ⭐     | Solution refactored to make it more readable |
+| ⭐     | Provided explanation on how the solution works |
 
 | day | Part 1 | Part 2 |
 |-----|--------|--------|
@@ -29,3 +29,14 @@ Then run precompiled executable like this: **``./solution <filePath>``** (you sh
 >If precompiled solution isn't working on your machine, you can compile it with **``compile.sh``**
 >
 >For that, make sure you have gcc installed on your machine
+
+## Repo stucture
+In the main folder you can find subfolders called ***day #***
+inside them there are folders called ***part 1*** and ***part 2***
+in these folders you can find solutions to their respective puzzles
+Each folder contains:
+- solution.c: source file of solution
+- solution: compiled executable of solution
+- input.txt: input from Advent Of Code
+- compile.sh: compiling script (for gcc)
+> - explanation.md: explanation of solution (***Not always present***)
