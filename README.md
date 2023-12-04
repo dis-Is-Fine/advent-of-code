@@ -8,7 +8,7 @@ My solutions for Advent Of Code 2023 written in C
 | ❌     | Problem not attempted yet |
 | ✍     | Working on solution |
 | ✅     | Problem solved |
-| ⭐     | Solution parsed to make it more readable |
+| ⭐     | Solution refactored to make it more readable |
 
 | day | Part 1 | Part 2 |
 |-----|--------|--------|
