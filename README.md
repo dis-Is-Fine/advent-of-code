@@ -12,7 +12,7 @@ My solutions for Advent Of Code 2023 written in C
 
 | day | Part 1 | Part 2 |
 |-----|--------|--------|
-| 1   |  ⭐   |   ✅   |
+| 1   |  ⭐   |   ⭐   |
 | 2   |  ✅   |   ✅   |
 | 3   |  ✅   |   ✅   |
 | 4   |  ✅   |   ✅   |
