@@ -12,7 +12,7 @@
 >   - Always override ``lastDigit`` so it always stores position of last encountered digit
 - If that character is not a digit:
     - Check if there is any string corresponding to a number begining on this character
-    - If there is string corresponding to that character treat is as digit and set ``firstDigit`` and ``lastDigit`` as described earlier  
+    - If there is string corresponding to that character treat is as digit corrseponding to that string and set ``firstDigit`` and ``lastDigit`` as described earlier  
 
 > - At the end of the line we set ``totalNumber`` by multiplying ``firstDigit`` by 10 and adding ``lastDigit``
 > - Add ``totalNumber`` to ``sum``
