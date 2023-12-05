@@ -95,7 +95,7 @@ int main(int argc, char *argv[]) {
         if(*location < lowestLocation || i == 0) lowestLocation = *location;
     }
 
-    printf("Solution %ld", lowestLocation);
+    printf("Solution: %ld", lowestLocation);
 
 }
 
@@ -112,7 +112,7 @@ long int* handleSeed(int* sNumber){
     for(long int i = firstSeed; i <= lastSeed; i++){
         location = getLocation(i);
         long int seedNo = i - firstSeed; 
-        if(seedNo%1000000 == 0) printf("Pair %d, %d/%d\n", seedNumber/2, seedNo, seedCount); 
+        if(seedNo%10000000 == 0) printf("Pair %d, %d/%d\n", seedNumber/2, seedNo, seedCount); 
         if(location < lowestLocation || i == firstSeed) lowestLocation = location;
     }
 
