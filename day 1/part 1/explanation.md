@@ -1,7 +1,7 @@
 # Day 1 | Part 1
 
 ## Approach
-- For each line we have two variables: ``firstDigit`` and ``lastDigit`` initially set to -1
+- For each line there are two variables: ``firstDigit`` and ``lastDigit`` initially set to -1
 - For each character in line we check if this character is a digit
 - If that character is a digit:
     - If ``firstDigit`` is -1 (So this digit is the first digit in this line), we set ``firstDigit`` to digit at current character position
