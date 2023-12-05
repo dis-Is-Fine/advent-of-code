@@ -20,12 +20,12 @@ long int handleSeed(int seedNumber);
 
 int main(int argc, char *argv[]) {
 
-    // if(argc != 2) {
-    //     printf("Usage: %s <input_file>\n", argv[0]);
-    //     return -1;
-    // }
+    if(argc != 2) {
+        printf("Usage: %s <input_file>\n", argv[0]);
+        return -1;
+    }
 
-    fd = fopen("input.txt", "r");
+    fd = fopen(argv[1], "r");
 
     if (fd == NULL) {
         printf("File not found\n");
