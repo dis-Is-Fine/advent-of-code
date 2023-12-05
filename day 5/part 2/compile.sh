@@ -1,0 +1,1 @@
+gcc solution.c ../../utils.c -o solution -O3 -pthread

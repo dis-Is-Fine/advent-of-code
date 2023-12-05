@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include "../../utils.h"
+#include <pthread.h>
 
 long int* seedList;
 char** lines;
@@ -11,12 +12,13 @@ char* mapNames[] = {"seed-to-soil map:\n", "soil-to-fertilizer map:\n",
                 "fertilizer-to-water map:\n", "water-to-light map:\n",
                 "light-to-temperature map:\n", "temperature-to-humidity map:\n",
                 "humidity-to-location map:\n"};
-int mapBeginningLines[8];
+long int mapBeginningLines[8];
 int seedPairCount;
 int lineCount;
 FILE* fd;
 
-long int handleSeed(int seedNumber);
+long int* handleSeed(int* sNumber);
+long int getLocation(long int seed);
 
 int main(int argc, char *argv[]) {
 
@@ -72,20 +74,53 @@ int main(int argc, char *argv[]) {
     mapBeginningLines[7] = lineCount;
 
     long int lowestLocation = 0;
-    for(int i = 0; i < seedPairCount; i++){
-        long int location = handleSeed(i);
-        if(location < lowestLocation || i == 0) lowestLocation = location;
+    int arg[seedPairCount/2];
+    pthread_t threads[seedPairCount/2];
+
+    for(int i = 0; i < seedPairCount/2; i++){
+        arg[i] = i*2;
+        pthread_create(&threads[i], NULL, (void*(*)(void*))handleSeed, &arg[i]);
+    }
+
+    for(int i = 0; i < seedPairCount/2; i++){
+        long int* location;
+        pthread_join(threads[i], (void**) &location);
+        if(*location < lowestLocation || i == 0) lowestLocation = *location;
     }
 
     printf("Solution %ld", lowestLocation);
 
 }
 
-long int handleSeed(int seedNumber){
-    long int seed = seedList[seedNumber];
-    
-    for(int i = 0; i < sizeof(mapBeginningLines)/sizeof(int); i++){
-        for(int line = mapBeginningLines[i]+1; line < mapBeginningLines[i+1]; line++){
+long int* handleSeed(int* sNumber){
+    int seedNumber = *sNumber;
+    long int firstSeed = seedList[seedNumber];
+    long int lastSeed = firstSeed + seedList[seedNumber+1];
+
+    long int location = 0;
+    long int lowestLocation = 0;
+
+    long int seedCount = lastSeed-firstSeed;
+    printf("Starting working on pair %d\n", seedNumber/2);
+    for(long int i = firstSeed; i <= lastSeed; i++){
+        location = getLocation(i);
+        long int seedNo = i - firstSeed; 
+        if(seedNo%100000 == 0) printf("Pair %d, %d/%d\n", seedNumber/2, seedNo, seedCount); 
+        if(location < lowestLocation || i == firstSeed) lowestLocation = location;
+    }
+
+    long int* retval = malloc(sizeof(long int));
+    *retval = lowestLocation;
+
+    printf("Pair %d of %d finished\n", seedNumber/2, seedPairCount/2-1);
+
+    pthread_exit(retval);
+}
+
+long int getLocation(long int seed){
+    for(int i = 0; i < sizeof(mapBeginningLines)/sizeof(long int) - 1; i++){
+        volatile long int maxVal = mapBeginningLines[i+1];
+        for(int line = mapBeginningLines[i]+1; line < maxVal; line++){
             long int destination = 0;
             long int source = 0;
             long int length = 0;
@@ -97,6 +132,5 @@ long int handleSeed(int seedNumber){
             }
         }
     }
-
     return seed;
 }
