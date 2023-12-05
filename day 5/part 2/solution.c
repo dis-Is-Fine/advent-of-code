@@ -15,6 +15,7 @@ char* mapNames[] = {"seed-to-soil map:\n", "soil-to-fertilizer map:\n",
 long int mapBeginningLines[8];
 int seedPairCount;
 int lineCount;
+long int** values;
 FILE* fd;
 
 long int* handleSeed(int* sNumber);
@@ -38,6 +39,7 @@ int main(int argc, char *argv[]) {
 
     seedList = malloc(sizeof(int)*50);
     lines = malloc(sizeof(char*)*lineCount-1);
+    values = malloc(sizeof(long int*));
 
     for(int i = 0; i < lineCount; i++){
         size_t size = 320;
@@ -73,6 +75,11 @@ int main(int argc, char *argv[]) {
     }
     mapBeginningLines[7] = lineCount;
 
+    for(int i = 0; i < lineCount; i++){
+        values[i] = malloc(sizeof(long int)*3);
+        sscanf(lines[i], "%ld %ld %ld", values[i], values[i]+1, values[i]+2);
+    }
+
     long int lowestLocation = 0;
     int arg[seedPairCount/2];
     pthread_t threads[seedPairCount/2];
@@ -105,7 +112,7 @@ long int* handleSeed(int* sNumber){
     for(long int i = firstSeed; i <= lastSeed; i++){
         location = getLocation(i);
         long int seedNo = i - firstSeed; 
-        if(seedNo%100000 == 0) printf("Pair %d, %d/%d\n", seedNumber/2, seedNo, seedCount); 
+        if(seedNo%1000000 == 0) printf("Pair %d, %d/%d\n", seedNumber/2, seedNo, seedCount); 
         if(location < lowestLocation || i == firstSeed) lowestLocation = location;
     }
 
@@ -119,14 +126,10 @@ long int* handleSeed(int* sNumber){
 
 long int getLocation(long int seed){
     for(int i = 0; i < sizeof(mapBeginningLines)/sizeof(long int) - 1; i++){
-        volatile long int maxVal = mapBeginningLines[i+1];
+        long int maxVal = mapBeginningLines[i+1];
         for(int line = mapBeginningLines[i]+1; line < maxVal; line++){
-            long int destination = 0;
-            long int source = 0;
-            long int length = 0;
-            sscanf(lines[line], "%ld %ld %ld", &destination, &source, &length);
-            if(seed >= source && seed <= source+length){
-                long int move = destination - source;
+            if(seed >= values[line][1] && seed <= values[line][1]+values[line][2]){
+                long int move = values[line][0] - values[line][1];
                 seed = seed + move;
                 break;
             }
