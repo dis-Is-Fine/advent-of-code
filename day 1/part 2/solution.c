@@ -22,6 +22,8 @@ int main(int argc, char *argv[]) {
         return -1;
     }
 
+    timerStart;
+
     char *buf = malloc(300);
     
     while(fscanf(fd, "%s\n", buf) != EOF) {
@@ -70,6 +72,8 @@ int main(int argc, char *argv[]) {
     printf("Solution: %d\n", sum);
 
     free(buf);
+
+    timerEnd;
 
     return 0;
 }

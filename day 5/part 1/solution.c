@@ -27,6 +27,8 @@ int main(int argc, char *argv[]) {
         return -1;
     }
 
+    timerStart;
+
     lineCount = getLineCount(fd);
 
     seedList = malloc(sizeof(int)*50);
@@ -72,8 +74,9 @@ int main(int argc, char *argv[]) {
         if(location < lowestLocation || i == 0) lowestLocation = location;
     }
 
-    printf("Solution: %ld", lowestLocation);
+    printf("Solution: %ld\n", lowestLocation);
 
+    timerEnd;
 }
 
 long int handleSeed(int seedNumber){

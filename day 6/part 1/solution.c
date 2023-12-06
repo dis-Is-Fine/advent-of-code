@@ -15,6 +15,8 @@ int main(int argc, char* argv[]){
         return -1;
     }
 
+    timerStart;
+
     size_t size = 128;
 
     char* line = malloc(size);
@@ -62,6 +64,8 @@ int main(int argc, char* argv[]){
     }
 
     printf("Solution: %d\n", solution);
+
+    timerEnd;
 
     return 0;
 }

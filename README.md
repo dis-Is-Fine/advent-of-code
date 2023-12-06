@@ -25,6 +25,9 @@ To use my solutions navigate to folder representing day/part of puzzle, for exam
 
 Then run precompiled executable like this: **``./solution <filePath>``** (you should replace filePath with path to your puzzle input)
 
+After the program is run, it will output solution and information on how long the program was running
+If the program is expected to run for a long time, it will output information on progress while running 
+
 
 >[!NOTE]
 >If precompiled solution isn't working on your machine, you can compile it with **``compile.sh``**

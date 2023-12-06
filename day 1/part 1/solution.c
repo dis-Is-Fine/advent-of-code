@@ -1,7 +1,7 @@
 #include "../../utils.h"
 
 int main(int argc, char *argv[]) {
-    
+
     if(argc != 2) {
         printf("Usage: %s <input_file>\n", argv[0]);
         return -1;
@@ -18,6 +18,8 @@ int main(int argc, char *argv[]) {
         printf("File not found\n");
         return -1;
     }
+
+    timerStart;
 
     char *buf = malloc(300);
     
@@ -47,6 +49,8 @@ int main(int argc, char *argv[]) {
     printf("Solution: %d\n", sum);
 
     free(buf);
+
+    timerEnd;
 
     return 0;
 }

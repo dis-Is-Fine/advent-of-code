@@ -31,6 +31,8 @@ int main(int argc, char *argv[]) {
         return -1;
     }
 
+    timerStart;
+
     int sum = 0;
 
     size_t size = 1024;
@@ -42,9 +44,11 @@ int main(int argc, char *argv[]) {
         sum += handleGame(cardString);
     }
 
-    printf("Solution: %d", sum);
+    printf("Solution: %d\n", sum);
 
     free(cardString);
+
+    timerEnd;
 
     return 0;
 }

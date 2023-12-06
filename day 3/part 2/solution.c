@@ -22,6 +22,8 @@ int main(int argc, char* argv[]) {
         return -1;
     }
 
+    timerStart;
+
     int lineCount = getLineCount(fd);
 
     char* lines[lineCount];
@@ -50,6 +52,8 @@ int main(int argc, char* argv[]) {
     }
     
     printf("Solution: %d\n", sum);
+
+    timerEnd;
 
     return 0;
 }

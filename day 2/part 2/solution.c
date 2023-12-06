@@ -30,6 +30,8 @@ int main(int argc, char *argv[]) {
         return -1;
     }
 
+    timerStart;
+
     size_t size = 1024;
 
     char *gameString = malloc(size);
@@ -42,7 +44,9 @@ int main(int argc, char *argv[]) {
 
     free(gameString);
 
-    printf("Solution: %d", sum);
+    printf("Solution: %d\n", sum);
+
+    timerEnd;
 
     return 0;
 }
