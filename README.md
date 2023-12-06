@@ -17,7 +17,7 @@ My solutions for Advent Of Code 2023 written in C
 | 3   |  ✅   |   ✅   |
 | 4   |  ✅   |   ✅   |
 | 5   |  ✅   |   ✅   |
-| 6   |  ❌   |   ❌   |
+| 6   |  ✅   |   ✅   |
 
 ## Usage
 To use my solutions navigate to folder representing day/part of puzzle, for example: **``./day 1/part 1``**
