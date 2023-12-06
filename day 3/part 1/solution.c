@@ -1,12 +1,5 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <string.h>
-#include <fcntl.h>
+#include "../../utils.h"
 
-int getLineCount(FILE* fd);
-int isDigit(int ch);
-int sizeOfNumber(int number);
 int searchForSymbol(int number, char* lines[], int lineCount, int x, int y);
 int isSymbol(int ch);
 
@@ -112,36 +105,4 @@ int isSymbol(int ch){
         if(ch == symbols[i]) return 1;
     }
     return 0;
-}
-
-int isDigit(int ch){
-    if(ch >= '0' && ch <= '9') {
-        return 1;
-    }
-    return 0;
-}
-
-int sizeOfNumber(int number) {
-    int i = 1;
-    while(number >= 10){
-        number = number / 10;
-        i++;
-    }
-    return i;
-}
-
-int getLineCount(FILE* fd){
-    int ch;
-    int lineCount = 0;
-    int position = ftell(fd);
-
-    do {
-        ch = fgetc(fd);
-        if(ch == '\n'){
-            lineCount++;
-        }
-    } while(ch != EOF);
-
-    fseek(fd, position, SEEK_SET);
-    return lineCount;
 }

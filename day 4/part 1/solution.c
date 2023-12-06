@@ -1,8 +1,4 @@
-#include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <fcntl.h>
+#include "../../utils.h"
 #include <math.h>
 
 #define numberBufSize 50
@@ -20,7 +16,6 @@ typedef struct Card {
 int handleGame(char* gameString);
 void handleCard(char* winningString, char* numbersString, Card* card);
 int checkMatching(Card* card, int number);
-int sizeOfNumber(int number);
 
 int main(int argc, char *argv[]) {
 
@@ -119,13 +114,4 @@ int checkMatching(Card* card, int number){
         if(card->winning[i] == number) return 1;
     }
     return 0;
-}
-
-int sizeOfNumber(int number) {
-    int i = 1;
-    while(number >= 10){
-        number = number / 10;
-        i++;
-    }
-    return i;
 }

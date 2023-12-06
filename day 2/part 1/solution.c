@@ -1,8 +1,4 @@
-#include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <fcntl.h>
+#include "../../utils.h"
 
 typedef struct Game {
     int id;
@@ -13,8 +9,6 @@ typedef struct Game {
 #define maxGreen 13
 #define maxBlue 14
 
-int stringEqual(char* str1, char* str2);
-int sizeOfNumber(int number);
 void handleGame(char* gameString);
 int handleDraw(char* drawString);
 
@@ -100,22 +94,4 @@ int handleDraw(char* drawString){
     }
 
     return 1;
-}
-
-int stringEqual(char* str1, char* str2){
-    int size = strlen(str1);
-    if(size != strlen(str2)) return 0;
-    for(int i = 0; i < size; i++){
-        if(str1[i] != str2[i]) return 0;
-    }
-    return 1;
-}
-
-int sizeOfNumber(int number) {
-    int i = 1;
-    while(number >= 10){
-        number = number / 10;
-        i++;
-    }
-    return i;
 }

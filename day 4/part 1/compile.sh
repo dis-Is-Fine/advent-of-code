@@ -1,1 +1,1 @@
-gcc solution.c -o solution -lm
+gcc solution.c ../../utils.c -o solution -lm
