@@ -81,4 +81,5 @@ After that we calculate the actual solution by subtracting $s_s$ from $s_e$ and 
 
 $s = s_e - s_s + 1$
 
-And here we have the solution to the puzzle
+And here we have the solution to the puzzle.
+As a bonus, there is geogebra calculator for todays puzzle in day 6 folder. Set $t$ and $r$, then read solution in $s$. Geogebra calculator is working exactly like desribed in this explanation.
