@@ -77,7 +77,7 @@ int main(int argc, char *argv[]) {
         if(location < lowestLocation || i == 0) lowestLocation = location;
     }
 
-    printf("Solution %ld", lowestLocation);
+    printf("Solution: %ld", lowestLocation);
 
 }
 
