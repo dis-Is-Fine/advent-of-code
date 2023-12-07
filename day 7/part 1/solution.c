@@ -20,11 +20,14 @@ typedef struct Card {
     int bet;
     int rank;
     int type;
+    int val;
 } Card;
 
 void assignNumbers(Card* card);
 void assignType(Card* card);
 void assignRanks(Card** cards, int size);
+void sortByValue(Card* cardsByType[], int size);
+void swap(Card* a, Card* b);
 int charToNumber(char ch);
 
 int main(int argc, char* argv[]){
@@ -118,24 +121,85 @@ void assignType(Card* card){
 }
 
 void assignRanks(Card** cards, int size){
-    Card** cardsByRank[7];
+    Card** cardsByType[7];
     for(int i = 0; i < 7; i++){
-        cardsByRank[i] = malloc(sizeof(Card*)*128);
-        cardsByRank[i][0] = calloc(1, sizeof(Card));
+        cardsByType[i] = malloc(sizeof(Card*)*1024);
+        cardsByType[i][0] = calloc(1, sizeof(Card));
     }
 
     int sizeOfArray[7] = {0};
 
-    for(int rank = 0; rank < 7; rank++){
-        /* First put every card in respective rank array */
+    /* First put every card in respective type array */
+    for(int type = 0; type < 7; type++){
         for(int i = 0; i < size; i++){
-            if(cards[i]->type != rank) continue;
-            cardsByRank[rank][sizeOfArray[rank]] = cards[i];
-            sizeOfArray[rank]++;
+            if(cards[i]->type != type) continue;
+            cardsByType[type][sizeOfArray[type]] = cards[i];
+            sizeOfArray[type]++;
         }
-
-        for(int i = 0; i < )
+        sortByValue(cardsByType[type], sizeOfArray[type]);
     }
+
+}
+
+int a(Card* cards[], Card*** returnCards, int size){
+    for(int i = 0; i < size; i++){
+        int minVal = cards[0]->numbers[numberIndex];
+        int locMinVal = 0;
+        for(int j = i; j < size; j++){
+            if(cards[j]->numbers[numberIndex] < minVal){
+                minVal = cards[j]->numbers[numberIndex];
+                locMinVal = j;
+            }
+        }
+        swap(cards[0], cards[locMinVal]);
+    }
+
+    int count = 0;
+
+    for(int number = 2; number <= 14; number++){
+        int tempCount = 0;
+        for(int cardIndex = 0; cardIndex < size; cardIndex++){
+            if(cards[cardIndex] == number) {
+                Card* card = malloc(sizeof(card));
+                memcpy(card, returncards[number][tempCount], sizeof(Card));
+            }
+        }
+    }
+}
+
+void sortByValue(Card* cards[], int size){
+    int s = sizeof(Card**)*size;
+
+    // for(int cardIndex = 0; cardIndex < size; cardIndex++){
+    //     cards[cardIndex]->val = cards[cardIndex]->numbers[0];
+    //     cards[cardIndex]->val += cards[cardIndex]->numbers[1]*14;
+    //     cards[cardIndex]->val += cards[cardIndex]->numbers[2]*14*14;
+    //     cards[cardIndex]->val += cards[cardIndex]->numbers[3]*14*14*14;
+    //     cards[cardIndex]->val += cards[cardIndex]->numbers[4]*14*14*14*14;
+    // }
+
+    Card** returnCard[15];
+
+    for(int i = 0; i < size; i++){
+        int minVal = cards[0]->numbers[numberIndex];
+        int locMinVal = 0;
+        for(int j = i; j < size; j++){
+            if(cards[j]->numbers[numberIndex] < minVal){
+                minVal = cards[j]->numbers[numberIndex];
+                locMinVal = j;
+            }
+        }
+        swap(cards[0], cards[locMinVal]);
+    }
+    
+}
+
+void swap(Card* a, Card* b){
+    Card* temp = malloc(sizeof(Card));
+    memcpy(temp, a, sizeof(Card));
+    memcpy(a, b, sizeof(Card));
+    memcpy(b, temp, sizeof(Card));
+    free(temp);
 }
 
 int charToNumber(char ch){
