@@ -11,6 +11,10 @@ int isDigit(int ch);
 int sizeOfNumber(int number);
 int sizeOfLong(long int number);
 int stringEqual(char* str1, char* str2);
+int intBelongsToArray(int value, int values[], int size);
+int largestInIntArray(int values[], int size);
+
+typedef enum {FALSE = 0, TRUE = 1} bool;
 
 #define timerStart clock_t __start = clock(); \
     struct timeval __startTv; \

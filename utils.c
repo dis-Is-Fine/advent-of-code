@@ -49,3 +49,19 @@ int stringEqual(char* str1, char* str2){
     }
     return 1;
 }
+
+/* Returns first index of value in array, else returns -1 */
+int intBelongsToArray(int value, int values[], int size){
+    for(int i = 0; i < size; i++){
+        if(value == values[i]) return i;
+    }
+    return -1;
+}
+
+int largestInIntArray(int values[], int size){
+    int largest = 0;
+    for(int i = 0; i < size; i++){
+        if(values[i] > largest) largest = values[i];
+    }
+    return largest;
+}

@@ -1,5 +1,36 @@
 {
     "files.associations": {
-        "utils.h": "c"
+        "utils.h": "c",
+        "stdio.h": "c",
+        "array": "c",
+        "atomic": "c",
+        "bit": "c",
+        "*.tcc": "c",
+        "cmath": "c",
+        "compare": "c",
+        "concepts": "c",
+        "cstddef": "c",
+        "deque": "c",
+        "string": "c",
+        "unordered_map": "c",
+        "vector": "c",
+        "exception": "c",
+        "functional": "c",
+        "iterator": "c",
+        "memory": "c",
+        "memory_resource": "c",
+        "numeric": "c",
+        "optional": "c",
+        "string_view": "c",
+        "system_error": "c",
+        "type_traits": "c",
+        "algorithm": "c",
+        "random": "c",
+        "limits": "c",
+        "ostream": "c",
+        "streambuf": "c",
+        "tuple": "c",
+        "typeinfo": "c",
+        "utility": "c"
     }
 }
