@@ -20,7 +20,6 @@ typedef struct Card {
     int bet;
     int rank;
     int type;
-    int val;
 } Card;
 
 void assignNumbers(Card* card);
@@ -32,12 +31,12 @@ int charToNumber(char ch);
 
 int main(int argc, char* argv[]){
     
-    // if(argc != 2) {
-    //     printf("Usage: %s <input_file>\n", argv[0]);
-    //     return -1;
-    // }
+    if(argc != 2) {
+        printf("Usage: %s <input_file>\n", argv[0]);
+        return -1;
+    }
 
-    FILE* fd = fopen("example.txt", "r");
+    FILE* fd = fopen(argv[1], "r");
 
     if (fd == NULL) {
         printf("File not found\n");
@@ -51,16 +50,28 @@ int main(int argc, char* argv[]){
 
     Card** cards = malloc(sizeof(Card*)*getLineCount(fd));
 
-    int i = 0;
+    int sz = 0;
     while(getline(&lineBuf, &size, fd) != -1){
-        cards[i] = malloc(sizeof(Card));
-        sscanf(lineBuf, "%5c %d", (char *)&cards[i]->chars, &cards[i]->bet);
-        assignNumbers(cards[i]);
-        assignType(cards[i]);
-        i++;
+        cards[sz] = malloc(sizeof(Card));
+        sscanf(lineBuf, "%5c %d", (char *)&cards[sz]->chars, &cards[sz]->bet);
+        assignNumbers(cards[sz]);
+        assignType(cards[sz]);
+        sz++;
     }
 
-    assignRanks(cards, i);
+    assignRanks(cards, sz);
+
+    int solution = 0;
+
+    for(int i = 0; i < sz; i++){
+        for(int j = 0; j < 5; j++){
+            printf("%c", cards[i]->chars[j]);
+        }
+        printf(" %d\n", cards[i]->bet);
+        solution += cards[i]->bet*cards[i]->rank;
+    }
+
+    printf("Solution: %d\n", solution);
 
     for(int i = 0; i < sizeof(cards)/sizeof(Card); i++){
         free(cards[i]);
@@ -122,9 +133,9 @@ void assignType(Card* card){
 
 void assignRanks(Card** cards, int size){
     Card** cardsByType[7];
+
     for(int i = 0; i < 7; i++){
-        cardsByType[i] = malloc(sizeof(Card*)*1024);
-        cardsByType[i][0] = calloc(1, sizeof(Card));
+        cardsByType[i] = malloc(sizeof(Card*)*size);
     }
 
     int sizeOfArray[7] = {0};
@@ -132,6 +143,7 @@ void assignRanks(Card** cards, int size){
     /* First put every card in respective type array */
     for(int type = 0; type < 7; type++){
         for(int i = 0; i < size; i++){
+            cardsByType[type][i] = malloc(sizeof(Card));
             if(cards[i]->type != type) continue;
             cardsByType[type][sizeOfArray[type]] = cards[i];
             sizeOfArray[type]++;
@@ -139,57 +151,38 @@ void assignRanks(Card** cards, int size){
         sortByValue(cardsByType[type], sizeOfArray[type]);
     }
 
+    int offset = 0;
+    for(int type = 0; type < 7; type++){
+        for(int j = 0; j < sizeOfArray[type]; j++){
+            cards[offset+j] = cardsByType[type][j];
+        }
+        offset += sizeOfArray[type];
+    }
+    
+    for(int i = 0; i < size; i++){
+        cards[i]->rank = i+1;
+    }
+
 }
 
-int a(Card* cards[], Card*** returnCards, int size){
+int valcmp(int a[], int b[], int size){
     for(int i = 0; i < size; i++){
-        int minVal = cards[0]->numbers[numberIndex];
-        int locMinVal = 0;
-        for(int j = i; j < size; j++){
-            if(cards[j]->numbers[numberIndex] < minVal){
-                minVal = cards[j]->numbers[numberIndex];
-                locMinVal = j;
-            }
-        }
-        swap(cards[0], cards[locMinVal]);
+        if(a[i] == b[i]) continue;
+        if(a[i] > b[i]) return 1;
+        return -1;
     }
-
-    int count = 0;
-
-    for(int number = 2; number <= 14; number++){
-        int tempCount = 0;
-        for(int cardIndex = 0; cardIndex < size; cardIndex++){
-            if(cards[cardIndex] == number) {
-                Card* card = malloc(sizeof(card));
-                memcpy(card, returncards[number][tempCount], sizeof(Card));
-            }
-        }
-    }
+    return 0;
 }
 
 void sortByValue(Card* cards[], int size){
     int s = sizeof(Card**)*size;
 
-    // for(int cardIndex = 0; cardIndex < size; cardIndex++){
-    //     cards[cardIndex]->val = cards[cardIndex]->numbers[0];
-    //     cards[cardIndex]->val += cards[cardIndex]->numbers[1]*14;
-    //     cards[cardIndex]->val += cards[cardIndex]->numbers[2]*14*14;
-    //     cards[cardIndex]->val += cards[cardIndex]->numbers[3]*14*14*14;
-    //     cards[cardIndex]->val += cards[cardIndex]->numbers[4]*14*14*14*14;
-    // }
-
-    Card** returnCard[15];
-
-    for(int i = 0; i < size; i++){
-        int minVal = cards[0]->numbers[numberIndex];
-        int locMinVal = 0;
-        for(int j = i; j < size; j++){
-            if(cards[j]->numbers[numberIndex] < minVal){
-                minVal = cards[j]->numbers[numberIndex];
-                locMinVal = j;
+    for (int i=0; i<size; i++) {
+        for (int j=0; j<size-1; j++) {
+            if (valcmp(cards[j]->numbers, cards[j+1]->numbers, 5) > 0) {
+                swap(cards[j], cards[j+1]);
             }
         }
-        swap(cards[0], cards[locMinVal]);
     }
     
 }
