@@ -68,37 +68,30 @@ int main(int argc, char* argv[]){
     int instructionIndex = 0;
     int stepCount = 0;
 
-
-    #define ever ;;
-    while(stepCount < 20000000){
-        bool end = FALSE;
-        for(int i = 0; i < arraySize; i++){
-            end = FALSE;
-            for(int j = 0; j < arraySize; j++){
-                if(currentMapEntry[i] == endingIndex[j]){
-                    end = TRUE;
-                    break;
+    while(1){
+        bool end = TRUE;
+        int previousFound = 0;
+        for(int a = 0; a < arraySize; a++){
+            if(mapEntries[currentMapEntry[a]]->code[2] != 'Z'){
+                end = FALSE;
+            } else {
+                if(previousFound == currentMapEntry[a]){
+                    printf("Found %d:%d:%d\n", a, currentMapEntry[a]+3, stepCount);
                 }
+                previousFound = currentMapEntry[a];
             }
-            if(end == FALSE) break;
+            if(instructionIndex >= sizeOfInstructions) instructionIndex = 0;
+            if(lines[0][instructionIndex] == 'L'){
+                currentMapEntry[a] = mapEntries[currentMapEntry[a]]->positionLeft;
+            } else {
+                currentMapEntry[a] = mapEntries[currentMapEntry[a]]->positionRight;
+            }
         }
         if(end == TRUE) break;
-
-        if(instructionIndex >= sizeOfInstructions) instructionIndex = 0;
-        // printf("%c | ", lines[0][instructionIndex]);
-        for(int i = 0; i < arraySize; i++){
-            printf("%d -> ", currentMapEntry[i]+3);
-            if(lines[0][instructionIndex] == 'L'){
-                currentMapEntry[i] = mapEntries[currentMapEntry[i]]->positionLeft;
-            } else {
-                currentMapEntry[i] = mapEntries[currentMapEntry[i]]->positionRight;
-            }
-            // printf("%d | ", currentMapEntry[i]+3);
-        }
-        // printf("\n");
         instructionIndex++;
         stepCount++;
     }
+
 
     if(stepCount == 20000000){
         printf("While for too much\n");
