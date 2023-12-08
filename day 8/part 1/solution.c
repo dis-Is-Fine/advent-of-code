@@ -11,12 +11,12 @@ int findLocation(MapEntry** mapEntries, char* code, int size);
 
 int main(int argc, char* argv[]){
 
-    // if(argc != 2) {
-    //     printf("Usage: %s <input_file>\n", argv[0]);
-    //     return -1;
-    // }
+    if(argc != 2) {
+        printf("Usage: %s <input_file>\n", argv[0]);
+        return -1;
+    }
 
-    FILE* fd = fopen("input.txt", "r");
+    FILE* fd = fopen(argv[1], "r");
 
     if (fd == NULL) {
         printf("File not found\n");
@@ -38,7 +38,7 @@ int main(int argc, char* argv[]){
         getline(&lines[i], &size, fd);
     }
 
-    MapEntry* mapEntries[lineCount-2];
+    MapEntry** mapEntries = malloc((lineCount-2)*sizeof(MapEntry**));
 
     for(int i = 0; i < lineCount-2; i++){
         mapEntries[i] = malloc(sizeof(MapEntry));
@@ -52,8 +52,6 @@ int main(int argc, char* argv[]){
         mapEntries[i-2]->positionLeft = findLocation(mapEntries, leftPosition, lineCount - 2);
         mapEntries[i-2]->positionRight = findLocation(mapEntries, rightPosition, lineCount - 2);
     }
-
-    char* instructions = malloc(512);
 
     int sizeOfInstructions = 0;
     while(lines[0][sizeOfInstructions] != '\n'){
