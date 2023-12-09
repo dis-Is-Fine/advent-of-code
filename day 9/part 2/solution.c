@@ -5,12 +5,13 @@ long** numberArray;
 long* arraySize;
 
 long handleLine(int lineNumber);
+void reverseArray(long* array, int arraySize);
 
 int main(int argc, char* argv[]){
 
     getFileName("input.txt");
     openFile;
-    
+
     timerStart;
 
     lineCount = getLineCount(fd);
@@ -42,6 +43,10 @@ int main(int argc, char* argv[]){
 
     free(lineBuf);
 
+    for(int i = 0; i < lineCount; i++){
+        reverseArray(numberArray[i], arraySize[i]);
+    }
+
     long solution = 0;
     for(int i = 0; i < lineCount; i++){
         solution += handleLine(i);
@@ -66,7 +71,7 @@ long handleLine(int lineNumber){
         end = TRUE;
         subArrays[a] = malloc(sizeof(long)*lastArraySize);
         for(long j = 0; j < lastArraySize-1; j++){
-            subArrays[a][j] = subArrays[a-1][j+1] - subArrays[a-1][j];
+            subArrays[a][j] = subArrays[a-1][j] - subArrays[a-1][j+1];
             if(subArrays[a][j] != 0) end = FALSE;
         }
         printf("\n");
@@ -76,7 +81,7 @@ long handleLine(int lineNumber){
 
     long arrayCount = a-1;
     for(long i = arrayCount-1; i >= 0; i--){
-        subArrays[i][lastArraySize+1] = subArrays[i][lastArraySize] + subArrays[i+1][lastArraySize];
+        subArrays[i][lastArraySize+1] = subArrays[i][lastArraySize] - subArrays[i+1][lastArraySize];
         lastArraySize++;
     }
 
@@ -94,4 +99,13 @@ long handleLine(int lineNumber){
     }
 
     return subArrays[0][lastArraySize];
+}
+
+void reverseArray(long* array, int arraySize){
+    long temp = 0;
+    for(int i = 0; i < arraySize/2; i++){
+        temp = array[i];
+        array[i] = array[arraySize-i-1];
+        array[arraySize-i-1] = temp;
+    }
 }
