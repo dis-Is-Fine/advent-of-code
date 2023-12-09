@@ -8,17 +8,19 @@ typedef struct MapEntry{
 
 MapEntry** mapEntries;
 
+long long LCM(long long a,long long b);
+long long GCD(long long int a, long long int b);
 int findLocation(char* code, int size);
 int* findLocationEnd(char endChar, int size, int* returnSize);
 
 int main(int argc, char* argv[]){
 
-    // if(argc != 2) {
-    //     printf("Usage: %s <input_file>\n", argv[0]);
-    //     return -1;
-    // }
+    if(argc != 2) {
+        printf("Usage: %s <input_file>\n", argv[0]);
+        return -1;
+    }
 
-    FILE* fd = fopen("input.txt", "r");
+    FILE* fd = fopen(argv[1], "r");
 
     if (fd == NULL) {
         printf("File not found\n");
@@ -55,8 +57,6 @@ int main(int argc, char* argv[]){
         mapEntries[i-2]->positionRight = findLocation(rightPosition, lineCount - 2);
     }
 
-    char* instructions = malloc(512);
-
     int sizeOfInstructions = 0;
     while(lines[0][sizeOfInstructions] != '\n'){
         sizeOfInstructions++;
@@ -66,43 +66,53 @@ int main(int argc, char* argv[]){
     int* endingIndex = findLocationEnd('Z', lineCount - 2, &arraySize);
     int* currentMapEntry = findLocationEnd('A', lineCount - 2, &arraySize);
     int instructionIndex = 0;
-    int stepCount = 0;
+    int* stepCounts = malloc(sizeof(int)*6);
 
-    while(1){
-        bool end = TRUE;
-        int previousFound = 0;
-        for(int a = 0; a < arraySize; a++){
-            if(mapEntries[currentMapEntry[a]]->code[2] != 'Z'){
-                end = FALSE;
-            } else {
-                if(previousFound == currentMapEntry[a]){
-                    printf("Found %d:%d:%d\n", a, currentMapEntry[a]+3, stepCount);
-                }
-                previousFound = currentMapEntry[a];
+    int i = 0;
+    int stepCount = 0;
+    for(int i = 0; i < arraySize; i++){
+        instructionIndex = 0;
+        stepCount = 0;
+        for(;;){
+            if(mapEntries[currentMapEntry[i]]->code[2] == 'Z'){
+                break;
             }
             if(instructionIndex >= sizeOfInstructions) instructionIndex = 0;
             if(lines[0][instructionIndex] == 'L'){
-                currentMapEntry[a] = mapEntries[currentMapEntry[a]]->positionLeft;
-            } else {
-                currentMapEntry[a] = mapEntries[currentMapEntry[a]]->positionRight;
+                currentMapEntry[i] = mapEntries[currentMapEntry[i]]->positionLeft;
+            } else{
+                currentMapEntry[i] = mapEntries[currentMapEntry[i]]->positionRight;
             }
+            instructionIndex++;
+            stepCount++;
         }
-        if(end == TRUE) break;
-        instructionIndex++;
-        stepCount++;
+        stepCounts[i] = stepCount;
+    }
+    
+    long long solution = 1;
+    for(int i = 0; i < arraySize; i++){
+        solution = LCM(solution, stepCounts[i]);
     }
 
-
-    if(stepCount == 20000000){
-        printf("While for too much\n");
-    }
-
-    printf("Solution: %d\n", stepCount);
+    printf("Solution: %lld\n", solution);
 
     timerEnd;
 
     return 0;
 }
+
+long long GCD(long long int a, long long int b){        
+    if(b==0)
+        return a;
+    return GCD(b,a%b);
+}
+
+long long LCM(long long a,long long b){     
+    if(a>b)
+        return (a/GCD(a,b))*b;
+    else
+        return (b/GCD(a,b))*a;    
+} 
 
 int* findLocationEnd(char endChar, int size, int* returnSize){
     int locationArray[256] = {0};
