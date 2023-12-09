@@ -2,10 +2,8 @@
 
 int main(int argc, char *argv[]) {
     
-    if(argc != 2) {
-        printf("Usage: %s <input_file>\n", argv[0]);
-        return -1;
-    }
+    getFileName("input.txt");
+    openFile;
 
     /* String lookup table for each number */
     char* numbers[] = {"zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"};
@@ -14,13 +12,6 @@ int main(int argc, char *argv[]) {
 
     char firstDigit = -1; /* First digit in the line */
     char lastDigit = -1;  /* Last tdigit in the line */
-
-    FILE *fd = fopen(argv[1], "r");
-
-    if(fd == NULL) {
-        printf("File not found\n");
-        return -1;
-    }
 
     timerStart;
 
