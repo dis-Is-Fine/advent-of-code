@@ -2,9 +2,9 @@
 
 int isDigit(int ch){
     if(ch >= '0' && ch <= '9') {
-        return 1;
+        return TRUE;
     }
-    return 0;
+    return FALSE;
 }
 
 int sizeOfNumber(int number) {
