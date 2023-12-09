@@ -13,7 +13,7 @@ int main(int argc, char* argv[]){
     //     return -1;
     // }
 
-    FILE* fd = fopen("example.txt", "r");
+    FILE* fd = fopen("input.txt", "r");
 
     if (fd == NULL) {
         printf("File not found\n");
@@ -38,7 +38,7 @@ int main(int argc, char* argv[]){
         arraySize[currentLine] = 0;
         numberArray[currentLine] = malloc(sizeof(long)*32);
         while(lineBuf[i] != '\n'){
-            if(isDigit(lineBuf[i]) == TRUE){
+            if(isDigit(lineBuf[i]) == TRUE || lineBuf[i] == '-'){
                 sscanf(lineBuf+i, "%d", &numberArray[currentLine][arraySize[currentLine]]);
                 i += sizeOfNumber(numberArray[currentLine][arraySize[currentLine]]);
                 arraySize[currentLine]++;
@@ -92,8 +92,11 @@ long handleLine(int lineNumber){
     int temp = arraySize[lineNumber]+1;
     for(long i = 0; i < a; i++){
         for(long j = 0; j < temp; j++){
-            if(j == temp -1)
-            printf("%d ", subArrays[i][j]);
+            if(j == (temp - 1)) {
+                printf("\x1b[1;32m%d\x1b[0m", subArrays[i][j]);
+            } else {
+                printf("%d ", subArrays[i][j]);
+            }
         }
         printf("\n");
         temp--;

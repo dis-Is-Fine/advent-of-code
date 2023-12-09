@@ -9,6 +9,10 @@ int isDigit(int ch){
 
 int sizeOfNumber(int number) {
     int i = 1;
+    if(number < 0){
+        number *= -1;
+        i++;
+    }
     while(number >= 10){
         number = number / 10;
         i++;
