@@ -1,3 +1,4 @@
+// #define DEV_MODE
 #include "../../utils.h"
 
 char** lines;
@@ -66,7 +67,8 @@ int main(int argc, char* argv[]){
    int previousDirection = direction;
    while(pathLength < maxPathLength){
       char nextChar = getNextChar(currentX, currentY, direction);
-      if(nextChar == -1) {printf("Bad input data\n"); exit(-1);}
+      if(nextChar == -1) {
+         printf("Bad input data\n"); exit(-1);}
       if(nextChar == 'S') {pathLength++; break;}
       direction = checkValidPipe(nextChar, direction);
       if(direction == -1) {printf("Something's sad"); exit(-1);}
@@ -76,15 +78,88 @@ int main(int argc, char* argv[]){
       pathLength++;
    }
 
-   // for(int i = 0; i < lineCount; i++){
-   //    for(int j = 0; j < lineLength; j++){
-   //       if(pathLocations[i][j] == FALSE) printf("%c", lines[i][j]);
-   //       else printf("\x1b[1;32m%c\x1b[0m", lines[i][j]);
-   //    }
-   //    printf("\n");
-   // }
+   for(int i = 0; i < lineCount; i++){
+      for(int j = 0; j < lineLength; j++){
+            if(lines[i][j] != '-' && lines[i][j] != '|') lines[i][j] = 'C';
+      }
+   }
 
-   printf("Solution: %d\n", pathLength/2);
+   lines[startY][startX] = '|';
+   if(checkValidPipe(getNextChar(startX, startY, DIR_UP), DIR_UP) != -1){
+      if(checkValidPipe(getNextChar(startX, startY, DIR_DOWN), DIR_DOWN) != -1) goto startConverted;
+   }
+   lines[startY][startX] = '-';
+   if(checkValidPipe(getNextChar(startX, startY, DIR_LEFT), DIR_LEFT) != -1){
+      if(checkValidPipe(getNextChar(startX, startY, DIR_RIGHT), DIR_RIGHT) != -1) goto startConverted;
+   }
+   lines[startY][startX] = 'C';
+
+   startConverted: int insideCount = 0;
+   for(int i = 0; i < lineCount; i++){
+      for(int j = 0; j < lineLength; j++){
+         if(pathLocations[i][j] == TRUE) continue;
+         int cutCount[4] = {0};
+         bool onLine = FALSE;
+         for(int k = i; k >= 0; k--){
+            if(pathLocations[k][j] == TRUE){
+               if(onLine == FALSE){
+                   cutCount[0]++;
+               }
+               if(lines[k][j] == 'C') {
+                  onLine = (onLine == TRUE) ? FALSE : TRUE;
+               }
+            }
+         }
+         onLine = FALSE;
+         for(int k = j; k <= lineLength-1; k++){
+            if(pathLocations[i][k] == TRUE){
+               if(onLine == FALSE){
+                   cutCount[1]++;
+               }
+               if(lines[i][k] == 'C') {
+                  onLine = (onLine == TRUE) ? FALSE : TRUE;
+               }
+            }
+         }
+         onLine = FALSE;
+         for(int k = i; k <= lineCount-1; k++){
+            if(pathLocations[k][j] == TRUE){
+               if(onLine == FALSE){
+                   cutCount[2]++;
+               }
+               if(lines[k][j] == 'C') {
+                  onLine = (onLine == TRUE) ? FALSE : TRUE;
+               }
+            }
+         }
+         onLine = FALSE;
+         for(int k = j; k >= 0; k--){
+            if(pathLocations[i][k] == TRUE){
+               if(onLine == FALSE){
+                   cutCount[3]++;
+               }
+               if(lines[i][k] == 'C') {
+                  onLine = (onLine == TRUE) ? FALSE : TRUE;
+               }
+            }
+         }
+         int minimumCount = 999999999;
+         for(int k = 0; k < 4; k++){
+            if(cutCount[k]<minimumCount) minimumCount = cutCount[k];
+         }
+         if(minimumCount % 2 == 1) insideCount++;
+      }
+   }
+
+   for(int i = 0; i < lineCount; i++){
+      for(int j = 0; j < lineLength; j++){
+         if(pathLocations[i][j] == FALSE) printf("%c", lines[i][j]);
+         else printf("\x1b[1;32m%c\x1b[0m", lines[i][j]);
+      }
+      printf("\n");
+   }
+
+   printf("Solution: %d\n", insideCount);
 
    timerEnd;
 
