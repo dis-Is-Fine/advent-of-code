@@ -1,6 +1,7 @@
 #include "../../utils.h"
 
 char** lines;
+bool** pathLocations;
 int lineCount;
 int lineLength;
 int startX;
@@ -25,9 +26,11 @@ int main(int argc, char* argv[]){
    
    size_t size = 512;
    lines = malloc(sizeof(char*)*lineCount);
+   pathLocations = malloc(sizeof(char*)*lineCount);
 
    for(int i = 0; i < lineCount; i++){
       lines[i] = malloc(size);
+      pathLocations[i] = calloc(size, sizeof(bool));
       if(getline(&lines[i], &size, fd) == -1) break;
       int j = 0;
       while(lines[i][j] != '\n'){
@@ -45,6 +48,7 @@ int main(int argc, char* argv[]){
 
    int currentX = startX;
    int currentY = startY;
+   pathLocations[startY][startX] = TRUE;
    int direction;
    /* Check for initial direction */
    for(int i = 0; i < 4; i++){
@@ -53,6 +57,7 @@ int main(int argc, char* argv[]){
       direction = checkValidPipe(nextChar, i);
       if(direction == -1) continue;
       setCurrentPos(&currentX, &currentY, i);
+      pathLocations[currentY][currentX] = TRUE;
       break;
    }
 
@@ -66,10 +71,11 @@ int main(int argc, char* argv[]){
       direction = checkValidPipe(nextChar, direction);
       if(direction == -1) {printf("Something's sad"); exit(-1);}
       setCurrentPos(&currentX, &currentY, previousDirection);
+      pathLocations[currentY][currentX] = TRUE;
       previousDirection = direction;
       pathLength++;
    }
-   
+
    // for(int i = 0; i < lineCount; i++){
    //    for(int j = 0; j < lineLength; j++){
    //       if(pathLocations[i][j] == FALSE) printf("%c", lines[i][j]);
