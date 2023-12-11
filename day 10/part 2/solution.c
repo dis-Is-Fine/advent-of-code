@@ -1,4 +1,3 @@
-#define DEV_MODE
 #include "../../utils.h"
 
 char** lines;
@@ -78,12 +77,6 @@ int main(int argc, char* argv[]){
       pathLength++;
    }
 
-   // for(int i = 0; i < lineCount; i++){
-   //    for(int j = 0; j < lineLength; j++){
-   //          if(lines[i][j] != '-' && lines[i][j] != '|') lines[i][j] = 'C';
-   //    }
-   // }
-
    lines[startY][startX] = '|';
    if(checkValidPipe(getNextChar(startX, startY, DIR_UP), DIR_UP) != -1){
       if(checkValidPipe(getNextChar(startX, startY, DIR_DOWN), DIR_DOWN) != -1) goto startConverted;
@@ -107,8 +100,7 @@ int main(int argc, char* argv[]){
    lines[startY][startX] = '7';
    if(checkValidPipe(getNextChar(startX, startY, DIR_LEFT), DIR_LEFT) != -1){
       if(checkValidPipe(getNextChar(startX, startY, DIR_DOWN), DIR_DOWN) != -1) goto startConverted;
-   }   
-   // lines[startY][startX] = 'C';
+   }
 
    startConverted: int insideCount = 0;
    for(int i = 0; i < lineCount; i++){
@@ -148,13 +140,13 @@ int main(int argc, char* argv[]){
       }
    }
 
-   for(int i = 0; i < lineCount; i++){
-      for(int j = 0; j < lineLength; j++){
-         if(pathLocations[i][j] == FALSE) printf("%c", lines[i][j]);
-         else printf("\x1b[1;32m%c\x1b[0m", lines[i][j]);
-      }
-      printf("\n");
-   }
+   // for(int i = 0; i < lineCount; i++){
+   //    for(int j = 0; j < lineLength; j++){
+   //       if(pathLocations[i][j] == FALSE) printf("%c", lines[i][j]);
+   //       else printf("\x1b[1;32m%c\x1b[0m", lines[i][j]);
+   //    }
+   //    printf("\n");
+   // }
 
    printf("Solution: %d\n", insideCount);
 
