@@ -1,4 +1,4 @@
-// #define DEV_MODE
+#define DEV_MODE
 #include "../../utils.h"
 
 char** lines;
@@ -18,7 +18,7 @@ char getNextChar(int currentX, int currentY, int direction);
 void setCurrentPos(int* currentX, int* currentY, int direction);
 
 int main(int argc, char* argv[]){
-   getFileName("example.txt");
+   getFileName("input.txt");
    openFile;
 
    timerStart;
@@ -78,11 +78,11 @@ int main(int argc, char* argv[]){
       pathLength++;
    }
 
-   for(int i = 0; i < lineCount; i++){
-      for(int j = 0; j < lineLength; j++){
-            if(lines[i][j] != '-' && lines[i][j] != '|') lines[i][j] = 'C';
-      }
-   }
+   // for(int i = 0; i < lineCount; i++){
+   //    for(int j = 0; j < lineLength; j++){
+   //          if(lines[i][j] != '-' && lines[i][j] != '|') lines[i][j] = 'C';
+   //    }
+   // }
 
    lines[startY][startX] = '|';
    if(checkValidPipe(getNextChar(startX, startY, DIR_UP), DIR_UP) != -1){
@@ -92,62 +92,59 @@ int main(int argc, char* argv[]){
    if(checkValidPipe(getNextChar(startX, startY, DIR_LEFT), DIR_LEFT) != -1){
       if(checkValidPipe(getNextChar(startX, startY, DIR_RIGHT), DIR_RIGHT) != -1) goto startConverted;
    }
-   lines[startY][startX] = 'C';
+   lines[startY][startX] = 'L';
+   if(checkValidPipe(getNextChar(startX, startY, DIR_RIGHT), DIR_RIGHT) != -1){
+      if(checkValidPipe(getNextChar(startX, startY, DIR_UP), DIR_UP) != -1) goto startConverted;
+   }
+   lines[startY][startX] = 'F';
+   if(checkValidPipe(getNextChar(startX, startY, DIR_RIGHT), DIR_RIGHT) != -1){
+      if(checkValidPipe(getNextChar(startX, startY, DIR_DOWN), DIR_DOWN) != -1) goto startConverted;
+   }
+   lines[startY][startX] = 'J';
+   if(checkValidPipe(getNextChar(startX, startY, DIR_LEFT), DIR_LEFT) != -1){
+      if(checkValidPipe(getNextChar(startX, startY, DIR_UP), DIR_UP) != -1) goto startConverted;
+   }
+   lines[startY][startX] = '7';
+   if(checkValidPipe(getNextChar(startX, startY, DIR_LEFT), DIR_LEFT) != -1){
+      if(checkValidPipe(getNextChar(startX, startY, DIR_DOWN), DIR_DOWN) != -1) goto startConverted;
+   }   
+   // lines[startY][startX] = 'C';
 
    startConverted: int insideCount = 0;
    for(int i = 0; i < lineCount; i++){
       for(int j = 0; j < lineLength; j++){
          if(pathLocations[i][j] == TRUE) continue;
-         int cutCount[4] = {0};
+         int cutCount = 0;
+         int cornerDirection;
          bool onLine = FALSE;
          for(int k = i; k >= 0; k--){
             if(pathLocations[k][j] == TRUE){
-               if(onLine == FALSE){
-                   cutCount[0]++;
-               }
-               if(lines[k][j] == 'C') {
-                  onLine = (onLine == TRUE) ? FALSE : TRUE;
-               }
-            }
-         }
-         onLine = FALSE;
-         for(int k = j; k <= lineLength-1; k++){
-            if(pathLocations[i][k] == TRUE){
-               if(onLine == FALSE){
-                   cutCount[1]++;
-               }
-               if(lines[i][k] == 'C') {
-                  onLine = (onLine == TRUE) ? FALSE : TRUE;
-               }
-            }
-         }
-         onLine = FALSE;
-         for(int k = i; k <= lineCount-1; k++){
-            if(pathLocations[k][j] == TRUE){
-               if(onLine == FALSE){
-                   cutCount[2]++;
-               }
-               if(lines[k][j] == 'C') {
-                  onLine = (onLine == TRUE) ? FALSE : TRUE;
+               if(lines[k][j] == 'F' || lines[k][j] == 'L') {
+                  if(onLine == FALSE){
+                     onLine = TRUE;
+                     cornerDirection = DIR_RIGHT;
+                  } else if(onLine == TRUE){
+                     if(cornerDirection == DIR_LEFT){
+                        cutCount++;
+                     }
+                     onLine = FALSE;
+                  }
+               } else if(lines[k][j] == 'J' || lines[k][j] == '7') {
+                  if(onLine == FALSE){
+                     onLine = TRUE;
+                     cornerDirection = DIR_LEFT;
+                  } else if(onLine == TRUE){
+                     if(cornerDirection == DIR_RIGHT){
+                        cutCount++;
+                     }
+                     onLine = FALSE;
+                  }
+               } else if(onLine == FALSE){
+                   cutCount++;
                }
             }
          }
-         onLine = FALSE;
-         for(int k = j; k >= 0; k--){
-            if(pathLocations[i][k] == TRUE){
-               if(onLine == FALSE){
-                   cutCount[3]++;
-               }
-               if(lines[i][k] == 'C') {
-                  onLine = (onLine == TRUE) ? FALSE : TRUE;
-               }
-            }
-         }
-         int minimumCount = 999999999;
-         for(int k = 0; k < 4; k++){
-            if(cutCount[k]<minimumCount) minimumCount = cutCount[k];
-         }
-         if(minimumCount % 2 == 1) insideCount++;
+         if(cutCount % 2 == 1) insideCount++;
       }
    }
 
