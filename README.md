@@ -47,6 +47,6 @@ in these folders you can find solutions to their respective puzzles
 Each folder contains:
 - solution.c: source file of solution
 - solution: compiled executable of solution
-- input.txt: input from Advent Of Code
+- example.txt: example input from Advent Of Code
 - compile.sh: compiling script (for gcc)
 > - explanation.md: explanation of solution (***Not always present***)
