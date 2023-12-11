@@ -47,7 +47,7 @@ int getLineCount(FILE* fd){
 
 int stringEqual(char* str1, char* str2){
     int size = strlen(str1);
-    if(size != strlen(str2)) return 0;
+    if(size != (int) strlen(str2)) return 0;
     for(int i = 0; i < size; i++){
         if(str1[i] != str2[i]) return 0;
     }
