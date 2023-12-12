@@ -1,0 +1,1 @@
+gcc -o solution solution.c ../../utils.c
