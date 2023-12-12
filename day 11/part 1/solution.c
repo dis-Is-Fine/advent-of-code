@@ -1,5 +1,4 @@
-// #define DEV_MODE
-#include "../../utils.h"
+:#include "../../utils.h"
 
 char** linesExpanded;
 int lineCountExpanded;
