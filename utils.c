@@ -45,13 +45,23 @@ int getLineCount(FILE* fd){
     return lineCount;
 }
 
-int stringEqual(char* str1, char* str2){
+bool stringEqual(char* str1, char* str2){
     int size = strlen(str1);
-    if(size != (int) strlen(str2)) return 0;
+    if(size != (int) strlen(str2)) return FALSE;
     for(int i = 0; i < size; i++){
-        if(str1[i] != str2[i]) return 0;
+        if(str1[i] != str2[i]) return FALSE;
     }
-    return 1;
+    return TRUE;
+}
+
+bool columnEqual(char** strings, int index1, int index2, int length){
+    bool equal = TRUE;
+    for(int i = 0; i < length; i++){
+        if(strings[i][index1] != strings[i][index2]){
+            equal = FALSE; break;
+        }
+    }
+    return equal;
 }
 
 /* Returns first index of value in array, else returns -1 */
@@ -68,4 +78,23 @@ int largestInIntArray(int values[], int size){
         if(values[i] > largest) largest = values[i];
     }
     return largest;
+}
+
+void reverseArray(void** array, int arraySize){
+    void* tempPointer;
+    for(int i = 0; i < arraySize/2; i++){
+        tempPointer = array[i];
+        array[i] = array[arraySize-i-1];
+        array[arraySize-i-1] = tempPointer;
+    }
+}
+
+void reverseString(char* string){
+    int length = strlen(string);
+    char temp;
+    for(int i = 0; i < (length-1)/2; i++){
+        temp = string[i];
+        string[i] = string[length-i-2];
+        string[length-i-2] = temp;
+    }
 }
