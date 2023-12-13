@@ -24,7 +24,7 @@ My solutions for Advent Of Code 2023 written in C
 | 10  |  ✅   |   ✅   |
 | 11  |  ✅   |   ✅   |
 | 12  |  ✅   |   ✍   |
-| 13  |  ✅   |   ✍   |
+| 13  |  ✅   |   ✅   |
 
 
 ## Usage
