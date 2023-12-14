@@ -1,4 +1,3 @@
-#define DEV_MODE
 #include "../../utils.h"
 
 char** lines;
