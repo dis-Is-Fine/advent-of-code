@@ -12,16 +12,35 @@ int main(int argc, char* argv[]){
 
     timerStart;
 
-    printf("This is still work in progress!!!\n");
-    sleep(3);
+    printf("This is still work in progress, results aren't correct\n");
+    sleep(2);
 
-    size_t size = 256;
+    size_t size = 512;
     char* lineBuf = malloc(size);
+    char* tempBuf = malloc(size);
+    int length = 0;
+    int index = 0;
 
     int solution = 0;
     while(getline(&lineBuf, &size, fd)!= -1){
-        int temp = processLine(lineBuf, (int) strlen(lineBuf));
-        temp = temp*temp*temp*temp*temp;
+        index = 0;
+        for(int i = 0; i < 5; i++){
+            sscanf(lineBuf, "%s", tempBuf+index);
+            length = strlen(tempBuf+index);
+            index += length;
+            tempBuf[index++] = '?';
+        }
+        tempBuf[index-1] =  ' ';
+        for(int i = 0; i < 5; i++){
+            sscanf(lineBuf+length+1, "%s", tempBuf+index);
+            index += strlen(tempBuf+index);
+            tempBuf[index++] = ',';
+        }
+        tempBuf[index-1] = '\0';
+        printf("%s\n", tempBuf);
+
+        int temp = processLine(tempBuf, (int) strlen(tempBuf));
+        printf("%d\n\n", temp);
         solution += temp;
     }
 
@@ -45,7 +64,7 @@ int processLine(char* line, int lineSize){
     int posibilities = 1 << unknownLocationCount;
     char* tempLine = malloc(lineSize);
     memcpy(tempLine, line, lineSize);
-    char binaryNum[32];
+    char binaryNum[128];
     int validCount = 0;
 
     for(int i = 0; i < posibilities; i++){
@@ -68,8 +87,8 @@ int processLine(char* line, int lineSize){
 }
 
 bool checkIsLineValid(char* line, int lineSize){
-    int* numbers = malloc(sizeof(int)*lineSize);
-    char* springLine = malloc(lineSize);
+    int numbers[lineSize];
+    char springLine[lineSize];
     sscanf(line, "%s ", springLine);
     int index = strlen(springLine)+1;
     int maxIndex = strlen(springLine);
